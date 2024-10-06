@@ -8,6 +8,7 @@ import Addcustomer from './components/Addcustomer';
 import Cart from './components/Cart';
 import Login from './components/Login';
 import Counter from './components/Counter';
+import Sendemail from './components/Sendemail';
 
 function App() {
   const [cartitems,setcartitems]=useState([])
@@ -24,6 +25,7 @@ function App() {
       <Cart cartitems={cartitems} setcartitems={setcartitems} grandtotal={grandtotal} setgrandtotal={setgrandtotal} counter={counter} setcounter={setcounter} />
       <Counter counter={counter} setcounter={setcounter} /></div>
       :<div>
+      <Sendemail />  
       <Customer />
       <Addproduct />
       <Addcustomer /></div>

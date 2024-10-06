@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db=require('./dbconnect')
+const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 9015;
 
@@ -21,7 +22,39 @@ app.get('/api/Customers/getallcustomers',async (req, res) => {
     res.send(result)
 });
 
-
+function sendmail(to,subject,message){
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com', // Replace with your email provider's SMTP server
+    port: 587, // Usually 587 for TLS or 465 for SSL
+    secure: false, // Set to true if using port 465
+    auth: {
+      user: 'anirudhmore43@gmail.com', // Your email address
+      pass: 'jihe rvmo wnfe carc', // Your email password or app-specific password
+    },
+  });
+// Set up email data
+const mailOptions = {
+    from: '"Sender Name" <anirudhmore43@gmail.com>', // Sender address
+    to: to, // List of recipients
+    subject:subject, // Subject line
+    html:message // Plain text body
+  };
+// Send the email
+transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log('Error occurred: ' + error.message);
+    }
+    console.log('Email sent: ' + info.response);
+  });
+}
+app.post('/api/Email/sendemail',(req,res)=>{
+    const to=req.body.to;
+    const subject=req.body.subject;
+    const message=req.body.message;
+    console.log(to,subject,message)
+    sendmail(to,subject,message)
+    res.send("messsage sent!")
+})
 // Sample POST endpoint
 app.post('/api/Products/insertproducts',async (req, res) => {
     const receivedData = req.body;

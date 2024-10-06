@@ -1,11 +1,31 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
+import axios from 'axios'
 
 function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounter}) {
     const increment=(item)=>{
       cartitems.map(it=>it.pid==item.pid?it.qtty++:"nothing")
       setcartitems([...cartitems])
       setgrandtotal(grandtotal+item.price)
+    }
+    const confirmorder=()=>{
+      const to ='anirudhmore43@gmail.com'
+      const subject ='order confirmation'
+      var message=cartitems.map(item=>"<h3>"+item.pid+" "+item.pname+" "+item.price+"\n")
+      
+      message=message+'</h3> \n your order amount ='+grandtotal
+      const payload={
+        to:to,
+        subject:subject,
+        message:message
+      }
+      axios.post("http://localhost:9015/api/Email/sendemail",payload)
+        .then(response=>{
+            alert(response.data)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     }
     const decrement=(item)=>{
       if(item.qtty>0){
@@ -36,6 +56,7 @@ function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounte
           </ul>
           <br></br>
           <h3>Grand total = {grandtotal}</h3>
+          <button onClick={confirmorder}>Confirm order</button>
     </div>
   )
 }
