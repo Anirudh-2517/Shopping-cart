@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import '../mystyles/index.css'
 
 function Customer() {
 
@@ -12,14 +13,14 @@ function Customer() {
     console.log(error)
   })
   return (
-    <div>
+    <div className='box'>
       <h1>Customers</h1>
-        {allCustomers.map(customer=>
-        <li style={{listStyle:'none'}}>
+        {allCustomers.map(customer=><ul  style={{listStyle:'none'}} className='list-group'>
+        <li style={{listStyle:'none'}} className='list-group-item m-2'>
           <span style={{display:'inline-block',width:'100px'}}>{customer.cid}</span>
           <span style={{display:'inline-block',width:'100px'}}>{customer.cname}</span>
           <span style={{display:'inline-block',width:'100px'}}>{customer.cellno}</span>
-        </li>)}
+        </li></ul>)}
     </div>
   )
 }

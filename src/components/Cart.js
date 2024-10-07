@@ -3,7 +3,8 @@ import { useEffect } from 'react'
 import axios from 'axios'
 
 function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounter}) {
-    const increment=(item)=>{
+  const [message,setMessage]=useState("")
+  const increment=(item)=>{
       cartitems.map(it=>it.pid==item.pid?it.qtty++:"nothing")
       setcartitems([...cartitems])
       setgrandtotal(grandtotal+item.price)
@@ -11,13 +12,19 @@ function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounte
     const confirmorder=()=>{
       const to ='anirudhmore43@gmail.com'
       const subject ='order confirmation'
-      var message=cartitems.map(item=>"<h3>"+item.pid+" "+item.pname+" "+item.price+"\n")
-      
-      message=message+'</h3> \n your order amount ='+grandtotal
+      var message1=" <h5>Dear Customer,\n Thank you for your purchase! Here are the details of your order: \n\n</h5>\n\n "
+      +" <table border='1' border-collapse='collapse'><thead><th>Item ID</th><th>Item Name</th><th>Item Price</th><th>Item Qtty</th> "
+      +" <th>Amount</th></thead><tbody> "+
+      cartitems.map(item=>" <tr><td>"+item.pid+"</td><td>"+item.pname+"</td><td>"+item.price+"</td><td>"+
+      item.qtty+"</td><td>"+item.qtty*item.price+"</td></tr> ")
+      setMessage(message1)  
+      var newmessage=message.replace(/,/g, '')  
+      newmessage=newmessage+" </tbody></table> \n your order amount ="+grandtotal
+      +" \n<p>If you have any questions or need further assistance, please feel free to contact us.\n Best regards,\n [Ammijaan.ltd]</p>"
       const payload={
         to:to,
         subject:subject,
-        message:message
+        message:newmessage
       }
       axios.post("http://localhost:9015/api/Email/sendemail",payload)
         .then(response=>{
@@ -43,7 +50,7 @@ function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounte
     useEffect(()=>{},[cartitems])
   return (
     <div>
-        <h1 style={{fontFamily:'cursive'}}><b>Cart</b></h1><ul style={{listStyle:'none'}} className='list-group'>
+        <h1 style={{fontFamily:'cursive', textAlign:'center'}}><b>Cart</b></h1><ul style={{listStyle:'none'}} className='list-group'>
         {cartitems.map(item=><li className='list-group-item m-1'>
           <span style={{display:'inline-block',width:'110px'}}>{item.pid}</span>
           <span style={{display:'inline-block',width:'110px'}}>{item.pname}</span>
@@ -55,8 +62,8 @@ function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounte
           </li>)}
           </ul>
           <br></br>
-          <h3>Grand total = {grandtotal}</h3>
-          <button onClick={confirmorder}>Confirm order</button>
+          <h3 style={{textAlign:'center'}}>Grand total = {grandtotal}</h3>
+          <button onClick={confirmorder} className='btn btn-primary '>Confirm order</button>
     </div>
   )
 }

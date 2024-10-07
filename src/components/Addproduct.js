@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import axios from 'axios'
+import '../mystyles/index.css'
 
 function Addproduct() {
     const pid=useRef("")
@@ -28,13 +29,13 @@ function Addproduct() {
         })
     }
   return (
-    <div>
+    <div className='box'>
         <h1 style={{fontFamily:'cursive'}}>Add Products</h1>
-        <input type='text' ref={pid} placeholder='Enter pid'></input>
-        <input type='text' ref={pname} placeholder='Enter pname'></input>
-        <input type='text' ref={price} placeholder='Enter price'></input>
-        <input type='text' ref={imageURl} placeholder='Enter image URl'></input>
-        <button onClick={insertproduct}>Insert product</button>
+        <input className='form-control w-75 m-3' type='text' ref={pid} placeholder='Enter pid'></input>
+        <input className='form-control w-75 m-3' type='text' ref={pname} placeholder='Enter pname'></input>
+        <input className='form-control w-75 m-3' type='text' ref={price} placeholder='Enter price'></input>
+        <input className='form-control w-75 m-3' type='text' ref={imageURl} placeholder='Enter image URl'></input>
+        <button className='btn btn-dark m-3' onClick={insertproduct}>Insert product</button>
     </div>
   )
 }

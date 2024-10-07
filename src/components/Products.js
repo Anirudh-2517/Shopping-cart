@@ -1,16 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios, { all } from 'axios'
+
 
 function Products({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounter}) {
 
     const [allProducts,setallProducts]=useState([])
-    axios.get("http://localhost:9015/api/Products/getallproducts")
-    .then(response=>{
-        setallProducts(response.data)
-    })
-    .catch(error=>{
-        console.log(error)
-    })
+
+    useEffect(()=>{
+      axios.get("http://localhost:9015/api/Products/getallproducts")
+      .then(response=>{
+          setallProducts(response.data)
+      })
+      .catch(error=>{
+          console.log(error)
+      })
+
+    },[allProducts])
+    
 
     const addtocart=(product)=>{
       let alreadypresent=false
@@ -25,9 +31,10 @@ function Products({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setco
     }
   return (
     <div>
-        <h1 style={{fontFamily:'cursive'}}><b>Products</b></h1><ul style={{listStyle:'none'}} className='list-group'>
-        {allProducts.map(product=>
-        <li className='list-group-item m-1'>
+        <h1 style={{fontFamily:'cursive', textAlign:'center'}}><b>Products</b></h1>
+        <ul style={{listStyle:'none'}} className='list-group'>
+        {allProducts.map((product,key)=>
+        <li id={key} className='list-group-item m-2'>
           <span style={{display:'inline-block',width:'110px'}}>{product.pid}</span>
           <span style={{display:'inline-block',width:'110px'}}>{product.pname}</span>
           <span style={{display:'inline-block',width:'100px'}}>{product.price}</span>

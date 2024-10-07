@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useRef } from 'react'
+import '../mystyles/index.css'
 
 function Addcustomer() {
     const cid=useRef("")
@@ -27,12 +28,12 @@ function Addcustomer() {
         })
     }
   return (
-    <div>
+    <div className='box'>
         <h1 style={{fontFamily:'cursive'}}>Add Customer</h1>
-        <input type='text' placeholder='Enter cid' ref={cid}></input>
-        <input type='text' placeholder='Enter cname' ref={cname}></input>
-        <input type='text' placeholder='Enter cell no.' ref={cellno}></input>
-        <button onClick={insertcustomer}>Insert Customer</button>
+        <input className='form-control w-75 m-3' type='text' placeholder='Enter cid' ref={cid}></input>
+        <input className='form-control w-75 m-3' type='text' placeholder='Enter cname' ref={cname}></input>
+        <input className='form-control w-75 m-3' type='text' placeholder='Enter cell no.' ref={cellno}></input>
+        <button className='btn btn-dark m-3' onClick={insertcustomer}>Insert Customer</button>
     </div>
   )
 }

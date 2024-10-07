@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useRef } from 'react'
+import '../mystyles/index.css'
 
 function Sendemail() {
   const to=useRef("")
@@ -25,12 +26,12 @@ function Sendemail() {
         })
   }
   return (
-    <div>
-        <h1>Send mail</h1>
-          <input type='text' className='form-control w-25 m-3' ref={to} placeholder='Send this mail to'></input>
-          <input type='text' className='form-control w-25 m-3' ref={subject} placeholder='Enter your subject'></input>
-          <input type='text' className='form-control w-25 m-3' ref={message} placeholder='Enter your message'></input>
-          <button className='btn btn-primary m-3' onClick={sendmail}>Send Email</button>
+    <div  className='box'>
+        <h1 style={{fontFamily:'cursive'}}>Send mail</h1>
+          <input type='text' className='form-control w-75 m-3' ref={to} placeholder='Send this mail to'></input>
+          <input type='text' className='form-control w-75 m-3' ref={subject} placeholder='Enter your subject'></input>
+          <input type='text' className='form-control w-75 m-3' ref={message} placeholder='Enter your message'></input>
+          <button className='btn btn-dark m-3' onClick={sendmail}>Send Email</button>
     </div>
   )
 }
