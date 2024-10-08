@@ -22,7 +22,7 @@ app.get('/api/Customers/getallcustomers',async (req, res) => {
     res.send(result)
 });
 
-function sendmail(to,subject,message){
+ async function sendmail(to,subject,message){
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com', // Replace with your email provider's SMTP server
     port: 587, // Usually 587 for TLS or 465 for SSL
@@ -40,7 +40,7 @@ const mailOptions = {
     html:message // Plain text body
   };
 // Send the email
-transporter.sendMail(mailOptions, (error, info) => {
+await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       return console.log('Error occurred: ' + error.message);
     }
@@ -69,6 +69,26 @@ app.post('/api/Products/insertproducts',async (req, res) => {
         res.send(error)
     }
 });
+
+app.post('/api/Users/checkusers',async (req,res)=>{
+    const receivedData=req.body;
+    console.log(req.body.username)
+    try {
+        const myCollection=db.collection("customers")
+        const user=await myCollection.find({username:req.body.username}).toArray();
+        console.log(user[0])
+        if(user){
+            const result=req.body.password===user[0].password;
+            console.log(user)
+            res.send(user)
+        }
+        else{
+            alert("invlaid user")
+        }
+    } catch (error) {
+        res.send(error)
+    }
+})
 
 app.post('/api/Customers/insertcustomers',async (req, res) => {
     const receivedData = req.body;

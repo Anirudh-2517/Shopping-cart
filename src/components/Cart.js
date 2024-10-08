@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 
-function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounter}) {
+function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounter,customer}) {
   const [message,setMessage]=useState("")
   const increment=(item)=>{
       cartitems.map(it=>it.pid==item.pid?it.qtty++:"nothing")
@@ -12,7 +12,7 @@ function Cart({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setcounte
     const confirmorder=()=>{
       const to ='anirudhmore43@gmail.com'
       const subject ='order confirmation'
-      var message1=" <h5>Dear Customer,\n Thank you for your purchase! Here are the details of your order: \n\n</h5>\n\n "
+      var message1=" <h5>Dear "+customer[0].cname+",\n Thank you for your purchase! Here are the details of your order: \n\n</h5>\n\n "
       +" <table border='1' border-collapse='collapse'><thead><th>Item ID</th><th>Item Name</th><th>Item Price</th><th>Item Qtty</th> "
       +" <th>Amount</th></thead><tbody> "+
       cartitems.map(item=>" <tr><td>"+item.pid+"</td><td>"+item.pname+"</td><td>"+item.price+"</td><td>"+

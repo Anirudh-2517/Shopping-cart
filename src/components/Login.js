@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../../node_modules/bootstrap-icons/font/bootstrap-icons.css'
 import '../mystyles/index.css'
+import axios from 'axios'
 
 
-function Login({setloginstatus,setusertype}) {
+function Login({setloginstatus,setusertype,setCustomer}) {
     const username=useRef("")
     const password=useRef("")
 
@@ -12,16 +13,22 @@ function Login({setloginstatus,setusertype}) {
         let username1=username.current.value
         let password1=password.current.value
 
-        if(username1==="abc" && password1==="abc"){
-            setloginstatus(true)
-            alert("Welcome user!!!")
+        const payload={
+            username:username1,
+            password:password1
         }
-        else if(username1==="admin" && password1==="admin"){
+        axios.post("http://localhost:9015/api/Users/checkusers",payload)
+        .then(response=>{
+            if(response.data.length>0){
             setloginstatus(true)
-            setusertype("admin")
-            }
-        else
-            alert("invalid user!!!")
+            setCustomer(response.data)}
+            else
+                alert("no such user")
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+
     }
   return (
     <div className='box'>
