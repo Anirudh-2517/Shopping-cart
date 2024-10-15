@@ -10,11 +10,73 @@ const PORT = process.env.PORT || 9015;
 app.use(cors());
 app.use(bodyParser.json()); // for parsing application/json
 
+//--------------GETTING ALL PRODUCTS--------------------
 app.get('/api/Products/getallproducts',async (req, res) => {
     const myCollection=db.collection("products")
     const result=await myCollection.find({}).toArray();
     res.send(result)
 });
+
+//--------------GETTING ALL ORDERS-----------------------
+app.get('/api/Orders/getallorders',async (req, res) => {
+    const myCollection=db.collection("orders")
+    const result=await myCollection.find({}).toArray();
+    res.send(result)
+});
+
+// ----------POST MTD OF SENDEMAIL------------------
+app.post('/api/Email/sendemail',(req,res)=>{
+    const to=req.body.to;
+    const subject=req.body.subject;
+    const message=req.body.message;
+    console.log(to,subject,message)
+    sendmail(to,subject,message)
+    res.send("messsage sent!")
+})
+
+//-----------POST OF ORDER ITEMS ------------
+app.post('/api/insertorderdetails',async (req,res)=>{
+    const receivedData=req.body.allitems;
+    try {
+        const myCollection=db.collection("orderitems")
+        const result=await myCollection.insertMany(receivedData)
+        console.log('recieved data:',receivedData);
+        res.send("inserted your order items")
+    } catch (error) {
+        console.log(error)
+        res.send(error)
+    }
+})
+
+//----------POST MTD OF INSERT PRODUCTS-----------
+app.post('/api/Products/insertproducts',async (req, res) => {
+    const receivedData = req.body;
+    try {
+        const myCollection=db.collection("products")
+        const result=await myCollection.insertOne(receivedData)
+        console.log('Received data:', receivedData);
+        res.send("inserted one product");
+    }
+    catch (error) {
+        console.log(error)
+        res.send(error)
+    }
+});
+
+//-------------PLACING ORDERS--------------
+app.post("/api/Order/placeorder",async (req,res)=>{
+    const receivedData =req.body;
+    try {
+        const myCollection=db.collection("orders")
+        const result=await myCollection.insertOne(receivedData)
+        console.log('Recieved data :', receivedData)
+        res.send("inserted one confirmed order")
+    } catch (error) {
+        console.log(error)
+        res.send(error)
+    }
+})
+//--------------GETTING ALL CUSTOMERS---------------------- 
 
 app.get('/api/Customers/getallcustomers',async (req, res) => {
     const myCollection=db.collection("customers")
@@ -22,7 +84,8 @@ app.get('/api/Customers/getallcustomers',async (req, res) => {
     res.send(result)
 });
 
- async function sendmail(to,subject,message){
+//-------------------SENDING EMAILS---------------------- 
+async function sendmail(to,subject,message){
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com', // Replace with your email provider's SMTP server
     port: 587, // Usually 587 for TLS or 465 for SSL
@@ -47,29 +110,8 @@ await transporter.sendMail(mailOptions, (error, info) => {
     console.log('Email sent: ' + info.response);
   });
 }
-app.post('/api/Email/sendemail',(req,res)=>{
-    const to=req.body.to;
-    const subject=req.body.subject;
-    const message=req.body.message;
-    console.log(to,subject,message)
-    sendmail(to,subject,message)
-    res.send("messsage sent!")
-})
-// Sample POST endpoint
-app.post('/api/Products/insertproducts',async (req, res) => {
-    const receivedData = req.body;
-    try {
-        const myCollection=db.collection("products")
-        const result=await myCollection.insertOne(receivedData)
-        console.log('Received data:', receivedData);
-        res.send("inserted one product");
-    }
-    catch (error) {
-        console.log(error)
-        res.send(error)
-    }
-});
 
+//--------- POST MTD OF CHECKING USERS----------
 app.post('/api/Users/checkusers',async (req,res)=>{
     const receivedData=req.body;
     console.log(req.body.username)
@@ -90,6 +132,7 @@ app.post('/api/Users/checkusers',async (req,res)=>{
     }
 })
 
+//--------- POST MTD OF INSERTING CUSTOMERS ----------
 app.post('/api/Customers/insertcustomers',async (req, res) => {
     const receivedData = req.body;
     try {
