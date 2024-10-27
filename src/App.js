@@ -17,24 +17,34 @@ function App() {
   const [grandtotal,setgrandtotal]=useState(0)
   const [counter,setcounter]=useState(0)
   const [customer,setCustomer]=useState([])
-  const [order_id,setOrder_id]=useState(1007)
+  const [order_id,setOrder_id]=useState()
 
   return (
     <div className="App">
       {loginstatus==(false)
+      
       ?<Login customer={customer} setCustomer={setCustomer} setloginstatus={setloginstatus} setusertype={setusertype}/>:usertype=="customer"?
+      
       <div style={{display:'flex','flexDirection':'column'}}>
+        
         <Header customer={customer} />
+        
         <div style={{display:'flex','flexDirection':'row'}}>
+          
           <Products cartitems={cartitems} setcartitems={setcartitems} grandtotal={grandtotal} setgrandtotal={setgrandtotal} counter={counter} setcounter={setcounter} />
+          
           <Cart order_id={order_id} setOrder_id={setOrder_id} customer={customer} cartitems={cartitems} setcartitems={setcartitems} grandtotal={grandtotal} setgrandtotal={setgrandtotal} counter={counter} setcounter={setcounter} />
+          
           <Counter counter={counter} setcounter={setcounter} />
+        
         </div>
       </div>:
         <div>
+          
           <Router>
             <Admin />
           </Router>
+        
         </div>}
     </div>
   );

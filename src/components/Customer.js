@@ -14,7 +14,7 @@ function Customer() {
   })
   return (
     <div className='box'>
-      <h1>Customers</h1>
+      <h1 style={{fontFamily:'cursive'}}>Customers</h1>
         {allCustomers.map(customer=><ul  style={{listStyle:'none'}} className='list-group'>
         <li style={{listStyle:'none'}} className='list-group-item m-2'>
           <span style={{display:'inline-block',width:'100px'}}>{customer.cid}</span>

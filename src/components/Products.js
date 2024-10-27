@@ -15,7 +15,7 @@ function Products({cartitems,setcartitems,grandtotal,setgrandtotal,counter,setco
           console.log(error)
       })
 
-    },[allProducts])
+    },[])
     
 
     const addtocart=(product)=>{
